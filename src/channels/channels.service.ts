@@ -11,5 +11,38 @@ import { Channel } from './entities/channel.entity';
 
 @Injectable()
 export class ChannelsService {
-  
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(Channel) private channelsRepository: Repository<Channel>,
+    @InjectRepository(Message) private messagesRepository: Repository<Message>,
+  ) {}
+
+  createChannel(createChannelDto: CreateChannelDto) {
+    const newChannel = this.channelsRepository.create(createChannelDto);
+
+    return this.channelsRepository.save(newChannel);
+  }
+
+  createUser(createUserDto: CreateUserDto) {
+    const newUser = this.usersRepository.create(createUserDto);
+
+    return this.usersRepository.save(newUser);
+  }
+
+  createMessage(createMessageDto: CreateMessageDto) {
+    const newMessage = this.messagesRepository.create(createMessageDto);
+
+    return this.messagesRepository.save(newMessage);
+  }
+
+  findAllChannels() {
+    return this.channelsRepository.find();
+    // return this.channelsRepository.find({ relations: ['users'] });
+  }
+
+  findOne(id: number) {
+    const channel = this.channelsRepository.findOneBy({ id });
+
+    if (channel) return 'list of channels';
+  }
 }

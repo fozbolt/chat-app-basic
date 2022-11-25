@@ -18,6 +18,9 @@ export class Channel {
   @Column()
   name: string;
 
+  @Column()
+  createdBy: string;
+
   @OneToMany(() => Message, (message) => message.channel)
   @JoinColumn()
   messages: Message[];
